@@ -19,19 +19,24 @@ class Datastore():
         else:
             self._databaseFileName = dbFileName
 
+        self._conn = None
+        self._cursor = None
+
     def connect(self):
         """Opens a database connection to the database file and creates tables."""
 
         try:
-            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
-            with self._conn:
-                self._conn = sqlite3.connect(self._databaseFileName)
-                self._cursor = self._conn.cursor()
+            self._conn = sqlite3.connect(self._databaseFileName)
+            self._cursor = self._conn.cursor()
 
-                # Create FoodAccount and MiscAccount database tables
-                self._cursor.execute('''CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, amount real, total real)''')
-                self._cursor.execute('''CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, amount real, total real)''')
-        except sqlite3.Error as e:
+            # Create FoodAccount and MiscAccount database tables
+            self._cursor.execute('''CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, amount real, total real)''')
+            self._cursor.execute('''CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, amount real, total real)''')
+
+            # Commit the change
+            self._conn.commit()
+        except Exception as e:
+            self._conn.rollback()
             print "Error: while creating tables FoodAccount and MiscAccount:", e
 
     def disconnect(self):
@@ -49,32 +54,45 @@ class Datastore():
         try:
             # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
             with self._conn:
-                self._conn.execute("INSERT INTO FoodAccount values (?)", ("Joe",))
-
-#c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-cur.execute("select * from people where name_last=:who and age=:age", {"who": who, "age": age})
+                # Insert info to FoodAccount
+                self._cursor.execute("INSERT INTO FoodAccount VALUES ('April', '2016', 45, 45)")
 
         except sqlite3.IntegrityError:
-            print "Error: couldn't add Joe twice"
+            print "Error: couldn't add to FoodAccount", e
 
     def insertMiscAccount(self, month, year):
         """Insert misc. account details into MiscAccount."""
 
+        """
         try:
             with con:
             with self._conn:
                 con.execute("insert into person(firstname) values (?)", ("Joe",))
         except sqlite3.IntegrityError:
             print "couldn't add Joe twice"
+        """
+        print "XXX"
 
     def fetchFoodAccount(self):
         """Fetch all the details from FoodAccount."""
+
+        try:
+            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
+            with self._conn:
+                self._cursor.execute("select * from FoodAccount")
+                print self._cursor.fetchall()
+        except sqlite3.IntegrityError:
+            print "Error: couldn't add to FoodAccount", e
 
     def fetchMiscAccount(self):
         """Fetch all the details from MiscAccount."""
 
 
 
+db = Datastore()
+db.connect()
+db.insertFoodAccount("April", "2016", 5.45)
+db.fetchFoodAccount()
 
 """
 conn = sqlite3.connect('example.db')
