@@ -30,8 +30,8 @@ class Datastore():
             self._cursor = self._conn.cursor()
 
             # Create FoodAccount and MiscAccount database tables
-            self._cursor.execute('''CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, amount real, total real)''')
-            self._cursor.execute('''CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, amount real, total real)''')
+            self._cursor.execute("CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, total real)")
+            self._cursor.execute("CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, total real)")
 
             # Commit the change
             self._conn.commit()
@@ -54,9 +54,19 @@ class Datastore():
         try:
             # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
             with self._conn:
-                # Insert info to FoodAccount
-                self._cursor.execute("INSERT INTO FoodAccount VALUES ('April', '2016', 45, 45)")
+                # First get the total amount for the month and year combination
+                self._cursor.execute("SELECT total FROM FoodAccount WHERE month=:month and year=:year", {"month": month, "year": year})
+                totalList = self._cursor.fetchall()
 
+                # Check if the entry for arguments month and year exists in the database or not
+                if not totalList:
+                    # Create a new row in FoodAccount for the month and year
+                    self._cursor.execute("INSERT INTO FoodAccount VALUES (?, ?, ?)", (month, year, amount))
+                else:
+                    # TODO deep I was here
+                    # If here that means the entry for arguments month and year already exists in the database
+                    totalAmount = float(amount) + totalList[0][0]
+                    self._cursor.execute("UPDATE FoodAccount SET total = ? WHERE month = ? AND year = ?", (totalAmount, month, year))
         except sqlite3.IntegrityError:
             print "Error: couldn't add to FoodAccount", e
 
@@ -91,7 +101,12 @@ class Datastore():
 
 db = Datastore()
 db.connect()
-db.insertFoodAccount("April", "2016", 5.45)
+db.insertFoodAccount("May", "2016", 5.5)
+db.insertFoodAccount("May", "2016", 15.3)
+db.insertFoodAccount("April", "2016", 10)
+db.insertFoodAccount("June", "2016", 5.5)
+db.insertFoodAccount("December", "2016", 55)
+db.insertFoodAccount("December", "2016", 155)
 db.fetchFoodAccount()
 
 """
@@ -115,13 +130,13 @@ table.to_csv(table_name + '.csv', index_label='index')
 
 
 """
-#TODO Add comments in whole file
+#TODO Add comments in whole file for each methods and etc.
 
 
 """
 Table
 - FoodAccount
-    - Columns: month, year, amount, total
+    - Columns: month, year, total
 - MiscAccount
-    - Columns: month, year, amount, total
+    - Columns: month, year, total
 """
