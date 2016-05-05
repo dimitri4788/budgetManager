@@ -88,27 +88,41 @@ class Datastore():
         except sqlite3.IntegrityError:
             print "Error: couldn't add to MiscAccount", e
 
-    def fetchFoodAccount(self):
-        """Fetch all the details from FoodAccount."""
+    def fetchFoodAccount(self, month=None, year=None):
+        """Fetch the details from FoodAccount.
 
-        try:
-            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
-            with self._conn:
-                self._cursor.execute("select * from FoodAccount")
-                print self._cursor.fetchall()
-        except sqlite3.IntegrityError:
-            print "Error: couldn't add to FoodAccount", e
+         Args:
+             month (str): TODO
 
-    def fetchMiscAccount(self):
-        """Fetch all the details from MiscAccount."""
+         """
+        if month is None or year is None:
+            return str(-1)  # Error case
+        else:
+            try:
+                # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
+                with self._conn:
+                    self._cursor.execute("SELECT total FROM FoodAccount WHERE month=:month and year=:year", {"month": month, "year": year})
+                    totalAmount = self._cursor.fetchall()
+                    return totalAmount[0][0]
+            except sqlite3.IntegrityError:
+                print "Error: couldn't fetch from the FoodAccount", e
+                return str(-1)  # Error case
 
-        try:
-            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
-            with self._conn:
-                self._cursor.execute("select * from MiscAccount")
-                print self._cursor.fetchall()
-        except sqlite3.IntegrityError:
-            print "Error: couldn't add to MiscAccount", e
+    def fetchMiscAccount(self, month=None, year=None):
+        """Fetch the details from MiscAccount."""
+
+        if month is None or year is None:
+            return str(-1)  # Error case
+        else:
+            try:
+                # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
+                with self._conn:
+                    self._cursor.execute("SELECT total FROM MiscAccount WHERE month=:month and year=:year", {"month": month, "year": year})
+                    totalAmount = self._cursor.fetchall()
+                    return totalAmount[0][0]
+            except sqlite3.IntegrityError:
+                print "Error: couldn't fetch from the MiscAccount", e
+                return str(-1)  # Error case
 
 
 db = Datastore()
@@ -121,8 +135,8 @@ db.insertFoodAccount("December", "2016", 55)
 db.insertFoodAccount("December", "2016", 155)
 db.insertFoodAccount("November", "2016", 44.3)
 db.insertMiscAccount("October", "2016", 44.3)
-db.fetchFoodAccount()
-db.fetchMiscAccount()
+print db.fetchFoodAccount("May", "2016")
+print db.fetchMiscAccount("October", "2016")
 
 #TODO Add comments in whole file for each methods and etc.
 
