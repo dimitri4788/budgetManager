@@ -37,7 +37,7 @@ class Datastore():
             self._conn.commit()
         except Exception as e:
             self._conn.rollback()
-            print "Error: while creating tables FoodAccount and MiscAccount:", e
+            print "Error: while creating tables FoodAccount and/or MiscAccount:", e
 
     def disconnect(self):
         """Closes the database connection."""
@@ -63,25 +63,30 @@ class Datastore():
                     # Create a new row in FoodAccount for the month and year
                     self._cursor.execute("INSERT INTO FoodAccount VALUES (?, ?, ?)", (month, year, amount))
                 else:
-                    # TODO deep I was here
-                    # If here that means the entry for arguments month and year already exists in the database
                     totalAmount = float(amount) + totalList[0][0]
                     self._cursor.execute("UPDATE FoodAccount SET total = ? WHERE month = ? AND year = ?", (totalAmount, month, year))
         except sqlite3.IntegrityError:
             print "Error: couldn't add to FoodAccount", e
 
-    def insertMiscAccount(self, month, year):
+    def insertMiscAccount(self, month, year, amount):
         """Insert misc. account details into MiscAccount."""
 
-        """
         try:
-            with con:
+            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
             with self._conn:
-                con.execute("insert into person(firstname) values (?)", ("Joe",))
+                # First get the total amount for the month and year combination
+                self._cursor.execute("SELECT total FROM MiscAccount WHERE month=:month and year=:year", {"month": month, "year": year})
+                totalList = self._cursor.fetchall()
+
+                # Check if the entry for arguments month and year exists in the database or not
+                if not totalList:
+                    # Create a new row in MiscAccount for the month and year
+                    self._cursor.execute("INSERT INTO MiscAccount VALUES (?, ?, ?)", (month, year, amount))
+                else:
+                    totalAmount = float(amount) + totalList[0][0]
+                    self._cursor.execute("UPDATE MiscAccount SET total = ? WHERE month = ? AND year = ?", (totalAmount, month, year))
         except sqlite3.IntegrityError:
-            print "couldn't add Joe twice"
-        """
-        print "XXX"
+            print "Error: couldn't add to MiscAccount", e
 
     def fetchFoodAccount(self):
         """Fetch all the details from FoodAccount."""
@@ -97,6 +102,13 @@ class Datastore():
     def fetchMiscAccount(self):
         """Fetch all the details from MiscAccount."""
 
+        try:
+            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
+            with self._conn:
+                self._cursor.execute("select * from MiscAccount")
+                print self._cursor.fetchall()
+        except sqlite3.IntegrityError:
+            print "Error: couldn't add to MiscAccount", e
 
 
 db = Datastore()
@@ -107,32 +119,15 @@ db.insertFoodAccount("April", "2016", 10)
 db.insertFoodAccount("June", "2016", 5.5)
 db.insertFoodAccount("December", "2016", 55)
 db.insertFoodAccount("December", "2016", 155)
+db.insertFoodAccount("November", "2016", 44.3)
+db.insertMiscAccount("October", "2016", 44.3)
 db.fetchFoodAccount()
+db.fetchMiscAccount()
 
-"""
-conn = sqlite3.connect('example.db')
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, amount real, total real)''')
-#c.execute('''CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, amount real, total real)''')
-
-#c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-c.execute("INSERT INTO FoodAccount VALUES ('March','2016', 50, 50)")
-
-conn.commit()
-
-#t = ('RHAT',)
-#c.execute('SELECT * FROM stocks WHERE symbol=?', t)
-#print c.fetchone()
-c.execute('SELECT * FROM FoodAccount')
-print c.fetchall()
-table = pd.read_sql_query("SELECT * from table_name", db)
-table.to_csv(table_name + '.csv', index_label='index')
-
-
-"""
 #TODO Add comments in whole file for each methods and etc.
 
 
+#XXX
 """
 Table
 - FoodAccount
