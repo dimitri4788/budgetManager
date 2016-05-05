@@ -13,7 +13,7 @@ class Datastore():
         _databaseFileName (str): The database filename on the disc
     """
 
-    def __init__(self, dbFileName = None):
+    def __init__(self, dbFileName=None):
         if not dbFileName:
             self._databaseFileName = "budgetManager.db"
         else:
