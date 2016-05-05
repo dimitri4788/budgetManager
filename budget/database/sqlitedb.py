@@ -15,7 +15,7 @@ class Datastore():
 
     def __init__(self, dbFileName = None):
         if not dbFileName:
-            self._databaseFileName = "example.db"
+            self._databaseFileName = "budgetManager.db"
         else:
             self._databaseFileName = dbFileName
 
@@ -49,7 +49,13 @@ class Datastore():
         self._conn.close()
 
     def insertFoodAccount(self, month, year, amount):
-        """Insert food account details into FoodAccount."""
+        """Insert food account details into FoodAccount.
+
+        Args:
+            month (str): The month to insert the amount to
+            year (str): The year to insert the amount to
+            amount (float): The amount to be inserted
+        """
 
         try:
             # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
@@ -69,7 +75,13 @@ class Datastore():
             print "Error: couldn't add to FoodAccount", e
 
     def insertMiscAccount(self, month, year, amount):
-        """Insert misc. account details into MiscAccount."""
+        """Insert misc. account details into MiscAccount.
+
+        Args:
+            month (str): The month to insert the amount to
+            year (str): The year to insert the amount to
+            amount (float): The amount to be inserted
+        """
 
         try:
             # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
@@ -88,13 +100,13 @@ class Datastore():
         except sqlite3.IntegrityError:
             print "Error: couldn't add to MiscAccount", e
 
-    def fetchFoodAccount(self, month=None, year=None):
+    def fetchFoodAccount(self, month=None, year=None):  # NOTE: This method can combined with insertMiscAccount to refactor the code
         """Fetch the details from FoodAccount.
 
          Args:
-             month (str): TODO
-
-         """
+            month (str): The month to fetch amount from
+            year (str): The year to fetch amount from
+        """
         if month is None or year is None:
             return str(-1)  # Error case
         else:
@@ -109,7 +121,12 @@ class Datastore():
                 return str(-1)  # Error case
 
     def fetchMiscAccount(self, month=None, year=None):
-        """Fetch the details from MiscAccount."""
+        """Fetch the details from MiscAccount.
+
+         Args:
+            month (str): The month to fetch amount from
+            year (str): The year to fetch amount from
+        """
 
         if month is None or year is None:
             return str(-1)  # Error case
@@ -124,28 +141,11 @@ class Datastore():
                 print "Error: couldn't fetch from the MiscAccount", e
                 return str(-1)  # Error case
 
-
+# XXX
 db = Datastore()
 db.connect()
 db.insertFoodAccount("May", "2016", 5.5)
 db.insertFoodAccount("May", "2016", 15.3)
-db.insertFoodAccount("April", "2016", 10)
-db.insertFoodAccount("June", "2016", 5.5)
-db.insertFoodAccount("December", "2016", 55)
-db.insertFoodAccount("December", "2016", 155)
-db.insertFoodAccount("November", "2016", 44.3)
 db.insertMiscAccount("October", "2016", 44.3)
 print db.fetchFoodAccount("May", "2016")
 print db.fetchMiscAccount("October", "2016")
-
-#TODO Add comments in whole file for each methods and etc.
-
-
-#XXX
-"""
-Table
-- FoodAccount
-    - Columns: month, year, total
-- MiscAccount
-    - Columns: month, year, total
-"""
