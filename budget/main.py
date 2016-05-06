@@ -7,6 +7,7 @@ import sys
 from PyQt4 import QtGui
 
 
+#TODO: Add comments everywhere
 class BudgetWidget(QtGui.QWidget):
     """TODO """
 
@@ -14,15 +15,22 @@ class BudgetWidget(QtGui.QWidget):
         # First construct QWidget
         super(BudgetWidget, self).__init__()
 
+        # TODO I am here
+        # First get the handle to Datastore
+        dbHandle = Datastore()
+        dbHandle.connect()
+
         # Create labels
         self.header = QtGui.QLabel("Budget Manager", self)
         now = datetime.datetime.now()
+        print "XXX del me: ", type(now.strftime('%B %Y'))
+        print "XXX del me: ", now.strftime('%B')
+        print "XXX del me: ", now.strftime('%Y')
         self.currentDate = QtGui.QLabel(now.strftime('%B %Y'), self)
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
         #self.miscLabel.setStyleSheet('color: yellow')
-
 
         # Create line-edits
         self.foodLineedit = QtGui.QLineEdit(self)
@@ -52,6 +60,15 @@ class BudgetWidget(QtGui.QWidget):
         self.setWindowTitle('Budget Manager')
         self.show()
 
+        # Fill the line-edits
+        currentMonth = now.strftime('%B')
+        currentYear = now.strftime('%Y')
+        foodTotal = dbHandle.fetchFoodAccount(currentMonth, currentYear)
+        miscTotal = dbHandle.fetchMiscAccount(currentMonth, currentYear)
+        db.insertFoodAccount("May", "2016", 5.5)
+        db.insertFoodAccount("May", "2016", 15.3)
+        db.insertMiscAccount("October", "2016", 44.3)
+
     def on_pushButtonOK_clicked(self):
         """TODO """
         print self.foodLineedit.text()
@@ -70,6 +87,3 @@ def main():
 # Execute only if run as a script
 if __name__ == "__main__":
     main()
-
-
-#TODO: Add comments everywhere
