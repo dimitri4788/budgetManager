@@ -5,7 +5,7 @@ import datetime
 import sys
 
 from PyQt4 import QtGui
-
+from sqlitedb import *
 
 #TODO: Add comments everywhere
 class BudgetWidget(QtGui.QWidget):
@@ -60,14 +60,13 @@ class BudgetWidget(QtGui.QWidget):
         self.setWindowTitle('Budget Manager')
         self.show()
 
-        # Fill the line-edits
+        # Fill the line-edits with the amount for food and misc
         currentMonth = now.strftime('%B')
         currentYear = now.strftime('%Y')
-        foodTotal = dbHandle.fetchFoodAccount(currentMonth, currentYear)
-        miscTotal = dbHandle.fetchMiscAccount(currentMonth, currentYear)
-        db.insertFoodAccount("May", "2016", 5.5)
-        db.insertFoodAccount("May", "2016", 15.3)
-        db.insertMiscAccount("October", "2016", 44.3)
+        currFoodTotal = dbHandle.fetchFoodAccount(currentMonth, currentYear)
+        currMiscTotal = dbHandle.fetchMiscAccount(currentMonth, currentYear)
+        db.insertFoodAccount(currentMonth, currentYear, currFoodTotal)
+        db.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
 
     def on_pushButtonOK_clicked(self):
         """TODO """
