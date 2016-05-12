@@ -115,7 +115,10 @@ class Datastore():
                 with self._conn:
                     self._cursor.execute("SELECT total FROM FoodAccount WHERE month=:month and year=:year", {"month": month, "year": year})
                     totalAmount = self._cursor.fetchall()
-                    return totalAmount[0][0]
+                    if not totalAmount:
+                        return 0.0
+                    else:
+                        return totalAmount[0][0]
             except sqlite3.IntegrityError:
                 print "Error: couldn't fetch from the FoodAccount", e
                 return str(-1)  # Error case
@@ -136,16 +139,19 @@ class Datastore():
                 with self._conn:
                     self._cursor.execute("SELECT total FROM MiscAccount WHERE month=:month and year=:year", {"month": month, "year": year})
                     totalAmount = self._cursor.fetchall()
-                    return totalAmount[0][0]
+                    if not totalAmount:
+                        return 0.0
+                    else:
+                        return totalAmount[0][0]
             except sqlite3.IntegrityError:
                 print "Error: couldn't fetch from the MiscAccount", e
                 return str(-1)  # Error case
 
 # XXX
-db = Datastore()
-db.connect()
-db.insertFoodAccount("May", "2016", 5.5)
-db.insertFoodAccount("May", "2016", 15.3)
-db.insertMiscAccount("October", "2016", 44.3)
-print db.fetchFoodAccount("May", "2016")
-print db.fetchMiscAccount("October", "2016")
+# db = Datastore()
+# db.connect()
+# db.insertFoodAccount("May", "2016", 5.5)
+# db.insertFoodAccount("May", "2016", 15.3)
+# db.insertMiscAccount("October", "2016", 44.3)
+# print db.fetchFoodAccount("May", "2016")
+# print db.fetchMiscAccount("October", "2016")
