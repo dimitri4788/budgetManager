@@ -29,6 +29,8 @@ class BudgetWidget(QtGui.QWidget):
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
+        self.foodLabelTotalValue = QtGui.QLabel("4443", self)
+        self.miscLabelTotalValue = QtGui.QLabel("4444", self)
         #self.miscLabel.setStyleSheet('color: yellow')
 
         # Create line-edits
@@ -44,6 +46,8 @@ class BudgetWidget(QtGui.QWidget):
         self.currentTotal.move(300, 60)
         self.foodLabel.move(5, 80)
         self.miscLabel.move(5, 100)
+        self.foodLabelTotalValue.move(330, 80)
+        self.miscLabelTotalValue.move(330, 100)
 
         # Set line-edits positions and size
         self.foodLineedit.move(90, 80)
@@ -66,6 +70,8 @@ class BudgetWidget(QtGui.QWidget):
         currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         print "currFoodTotal", currFoodTotal
         print "currMiscTotal", currMiscTotal
+        self.foodLabelTotalValue.setText(str(currFoodTotal))
+        self.miscLabelTotalValue.setText(str(currMiscTotal))
         #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, currFoodTotal)
         #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
         #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
