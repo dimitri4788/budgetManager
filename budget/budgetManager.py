@@ -12,21 +12,19 @@ from database import Datastore
 class BudgetWidget(QtGui.QWidget):
     """TODO """
 
+    # TODO I am here
+    # First get the handle to Datastore
+    dbHandle = Datastore()
+    dbHandle.connect()
+
     def __init__(self):
         # First construct QWidget
         super(BudgetWidget, self).__init__()
 
-        # TODO I am here
-        # First get the handle to Datastore
-        dbHandle = Datastore()
-        dbHandle.connect()
 
         # Create labels
         self.header = QtGui.QLabel("Budget Manager", self)
         now = datetime.datetime.now()
-        print "XXX del me: ", type(now.strftime('%B %Y'))
-        print "XXX del me: ", now.strftime('%B')
-        print "XXX del me: ", now.strftime('%Y')
         self.currentDate = QtGui.QLabel(now.strftime('%B %Y'), self)
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
@@ -64,20 +62,27 @@ class BudgetWidget(QtGui.QWidget):
         # Fill the line-edits with the amount for food and misc
         currentMonth = now.strftime('%B')
         currentYear = now.strftime('%Y')
-        currFoodTotal = dbHandle.fetchFoodAccount(currentMonth, currentYear)
-        currMiscTotal = dbHandle.fetchMiscAccount(currentMonth, currentYear)
+        currFoodTotal = BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear)
+        currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         print "currFoodTotal", currFoodTotal
         print "currMiscTotal", currMiscTotal
-        dbHandle.insertFoodAccount(currentMonth, currentYear, currFoodTotal)
-        dbHandle.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
-        print dbHandle.fetchFoodAccount(currentMonth, currentYear)
-        print dbHandle.fetchMiscAccount(currentMonth, currentYear)
+        #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, currFoodTotal)
+        #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
+        #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
+        #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
 
     def on_pushButtonOK_clicked(self):
         """TODO """
-        print self.foodLineedit.text()
-        print self.miscLineedit.text()
-        print "deep"
+        #print self.foodLineedit.text()
+        #print self.miscLineedit.text()
+        now = datetime.datetime.now()
+        currentMonth = now.strftime('%B')
+        currentYear = now.strftime('%Y')
+        BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
+        BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
+        #print "curr food: ", BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear)
+        #print "curr misc: ", BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
+        #print "deep"
 
 
 def main():

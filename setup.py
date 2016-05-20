@@ -7,16 +7,24 @@ Usage:
 
 from setuptools import setup, find_packages
 
-import budget
+PACKAGES = ['sqlalchemy.dialects.sqlite']
+MODULES = ['sqlite3']
+includes = ["sqlalchemy.databases.sqlite"]
+
 
 APP = ['budget/budgetManager.py']
 DATA_FILES = []
 OPTIONS = {'argv_emulation': True}
 
+OPTIONS = {'argv_emulation': True,
+           'packages': PACKAGES,
+           'includes' : ['sqlalchemy.dialects.sqlite']}
+
 setup(
     app=APP,
     data_files=DATA_FILES,
-    options={'py2app': OPTIONS},
-    setup_requires=['py2app'],
+    include_package_data=True,
     packages=find_packages(),
+    options={'py2app': OPTIONS},
+    setup_requires=['py2app', "sqlalchemy"]
 )

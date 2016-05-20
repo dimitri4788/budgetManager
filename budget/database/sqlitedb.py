@@ -30,7 +30,7 @@ class Datastore():
             self._cursor = self._conn.cursor()
 
             # Create FoodAccount and MiscAccount database tables
-            self._cursor.execute("CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, total real)")
+            gg = self._cursor.execute("CREATE TABLE IF NOT EXISTS FoodAccount (month text, year text, total real)")
             self._cursor.execute("CREATE TABLE IF NOT EXISTS MiscAccount (month text, year text, total real)")
 
             # Commit the change
@@ -148,10 +148,9 @@ class Datastore():
                 return str(-1)  # Error case
 
 # XXX
-# db = Datastore()
-# db.connect()
-# db.insertFoodAccount("May", "2016", 5.5)
-# db.insertFoodAccount("May", "2016", 15.3)
-# db.insertMiscAccount("October", "2016", 44.3)
-# print db.fetchFoodAccount("May", "2016")
-# print db.fetchMiscAccount("October", "2016")
+db = Datastore()
+db.connect()
+#db.insertFoodAccount("May", "2016", 5.5)
+#db.insertMiscAccount("May", "2016", 44.3)
+print db.fetchFoodAccount("May", "2016")
+print db.fetchMiscAccount("May", "2016")
