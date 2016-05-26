@@ -7,6 +7,9 @@ import sys
 from PyQt4 import QtGui
 
 from database import Datastore
+from csvgenerator import 
+from pdfgenerator import
+
 
 #TODO: Add comments everywhere
 class BudgetWidget(QtGui.QWidget):
@@ -21,7 +24,6 @@ class BudgetWidget(QtGui.QWidget):
         # First construct QWidget
         super(BudgetWidget, self).__init__()
 
-
         # Create labels
         self.header = QtGui.QLabel("Budget Manager", self)
         now = datetime.datetime.now()
@@ -29,8 +31,8 @@ class BudgetWidget(QtGui.QWidget):
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
-        self.foodLabelTotalValue = QtGui.QLabel("4443", self)
-        self.miscLabelTotalValue = QtGui.QLabel("4444", self)
+        self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)
+        self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)
         #self.miscLabel.setStyleSheet('color: yellow')
 
         # Create line-edits
@@ -39,6 +41,8 @@ class BudgetWidget(QtGui.QWidget):
 
         # Create push-buttons
         self.submitButton = QtGui.QPushButton('Submit', self)
+        self.csvButton = QtGui.QPushButton('Generate CSV', self)
+        self.pdfButton = QtGui.QPushButton('Generate PDF', self)
 
         # Set labels positions
         self.header.move(200, 20)
@@ -58,6 +62,10 @@ class BudgetWidget(QtGui.QWidget):
         self.submitButton.move(100, 200)
         self.submitButton.clicked.connect(self.on_pushButtonOK_clicked)
         self.submitButton.setStyleSheet("background-color: red; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+        self.csvButton.move(100, 250)
+        self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+        self.pdfButton.move(100, 300)
+        self.pdfButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
 
         self.setGeometry(300, 300, 550, 350)
         self.setWindowTitle('Budget Manager')
@@ -76,6 +84,7 @@ class BudgetWidget(QtGui.QWidget):
         #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
         #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
         #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
+
 
     def on_pushButtonOK_clicked(self):
         """TODO """
