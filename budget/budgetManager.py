@@ -7,8 +7,8 @@ import sys
 from PyQt4 import QtGui
 
 from database import Datastore
-from csvgenerator import 
-from pdfgenerator import
+from csvgenerator import *
+from pdfgenerator import *
 
 
 #TODO: Add comments everywhere
@@ -59,14 +59,22 @@ class BudgetWidget(QtGui.QWidget):
         self.miscLineedit.move(90, 100)
         self.miscLineedit.resize(90, 20)
 
+        # Set position of submitButton and the action associated with it
         self.submitButton.move(100, 200)
-        self.submitButton.clicked.connect(self.on_pushButtonOK_clicked)
+        self.submitButton.clicked.connect(self.submitButtonClicked)
         self.submitButton.setStyleSheet("background-color: red; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+
+        # Set position of csvButton and the action associated with it
         self.csvButton.move(100, 250)
+        self.csvButton.clicked.connect(self.csvButtonClicked)
         self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+
+        # Set position of pdfButton and the action associated with it
         self.pdfButton.move(100, 300)
+        self.pdfButton.clicked.connect(self.pdfButtonClicked)
         self.pdfButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
 
+        # Set app window size and title
         self.setGeometry(300, 300, 550, 350)
         self.setWindowTitle('Budget Manager')
         self.show()
@@ -86,7 +94,7 @@ class BudgetWidget(QtGui.QWidget):
         #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
 
 
-    def on_pushButtonOK_clicked(self):
+    def submitButtonClicked(self):
         """TODO """
         #print self.foodLineedit.text()
         #print self.miscLineedit.text()
@@ -99,6 +107,11 @@ class BudgetWidget(QtGui.QWidget):
         #print "curr misc: ", BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         #print "deep"
 
+    def csvButtonClicked(self):
+        genCSV(BudgetWidget.dbHandle)
+
+    def pdfButtonClicked(self):
+        print "Hi Deep"
 
 def main():
     """This function is where the budget app starts."""
