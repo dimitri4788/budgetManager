@@ -16,4 +16,5 @@ def genCSV(dbHandle=None):
         writer = csv.DictWriter(csvfile, fieldnames=fNames)
 
         writer.writeheader()
-    #def fetchFoodAccount(self, month=None, year=None):  # NOTE: This method can combined with insertMiscAccount to refactor the code
+        xx = dbHandle.fetchFoodAccount(month="May", year="2016")
+        writer.writerow({'Month': 'May', 'Year': '2016', 'Total ($)': xx})
