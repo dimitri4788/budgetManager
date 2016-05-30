@@ -16,13 +16,13 @@ class BudgetWidget(QtGui.QWidget):
     """TODO """
 
     # TODO I am here
-    # First get the handle to Datastore
+    # First get the handle to Datastore (all the instances of BudgetWidget share dbHandle; class member)
     dbHandle = Datastore()
     dbHandle.connect()
 
     def __init__(self):
         # First construct QWidget
-        super(BudgetWidget, self).__init__()
+        super(self.__class__, self).__init__()
 
         # Create labels
         self.header = QtGui.QLabel("Budget Manager", self)
@@ -84,14 +84,8 @@ class BudgetWidget(QtGui.QWidget):
         currentYear = now.strftime('%Y')
         currFoodTotal = BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear)
         currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
-        print "currFoodTotal", currFoodTotal
-        print "currMiscTotal", currMiscTotal
         self.foodLabelTotalValue.setText(str(currFoodTotal))
         self.miscLabelTotalValue.setText(str(currMiscTotal))
-        #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, currFoodTotal)
-        #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, currMiscTotal)
-        #BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
-        #BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
 
 
     def submitButtonClicked(self):
@@ -114,11 +108,15 @@ class BudgetWidget(QtGui.QWidget):
         currentMonth = now.strftime('%B')
         currentYear = now.strftime('%Y')
 
+        currFoodTotal = BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear) + foodValueEnteredByUser
+        currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear) + miscValueEnteredByUser
+        self.foodLabelTotalValue.setText(str(currFoodTotal))
+        self.miscLabelTotalValue.setText(str(currMiscTotal))
+
         BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, foodValueEnteredByUser)
         BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, miscValueEnteredByUser)
-        #print "curr food: ", BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear)
-        #print "curr misc: ", BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
-        #print "deep"
+
+        #FIXME There is a bug here in this method
 
     def csvButtonClicked(self):
         genCSV(BudgetWidget.dbHandle)
