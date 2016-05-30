@@ -153,6 +153,7 @@ class Datastore():
                 allAccount = self._cursor.fetchall()
                 if not allAccount:
                     return []
+                return allAccount
         except sqlite3.IntegrityError:
             print "Error: couldn't fetch from the FoodAccount", e
             return []  # Error case
@@ -166,6 +167,7 @@ class Datastore():
                 allAccount = self._cursor.fetchall()
                 if not allAccount:
                     return []
+                return allAccount
         except sqlite3.IntegrityError:
             print "Error: couldn't fetch from the MiscAccount", e
             return []  # Error case
