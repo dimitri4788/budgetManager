@@ -58,7 +58,7 @@ class Datastore():
         """
 
         try:
-            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
+            # NOTE: We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
             with self._conn:
                 # First get the total amount for the month and year combination
                 self._cursor.execute("SELECT total FROM FoodAccount WHERE month=:month and year=:year", {"month": month, "year": year})
@@ -84,7 +84,6 @@ class Datastore():
         """
 
         try:
-            # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
             with self._conn:
                 # First get the total amount for the month and year combination
                 self._cursor.execute("SELECT total FROM MiscAccount WHERE month=:month and year=:year", {"month": month, "year": year})
@@ -111,7 +110,6 @@ class Datastore():
             return str(-1)  # Error case
         else:
             try:
-                # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
                 with self._conn:
                     self._cursor.execute("SELECT total FROM FoodAccount WHERE month=:month and year=:year", {"month": month, "year": year})
                     totalAmount = self._cursor.fetchall()
@@ -135,7 +133,6 @@ class Datastore():
             return str(-1)  # Error case
         else:
             try:
-                # We can use the sqlite3.Connection object as context manager to automatically commit or rollback transactions
                 with self._conn:
                     self._cursor.execute("SELECT total FROM MiscAccount WHERE month=:month and year=:year", {"month": month, "year": year})
                     totalAmount = self._cursor.fetchall()
@@ -147,10 +144,41 @@ class Datastore():
                 print "Error: couldn't fetch from the MiscAccount", e
                 return str(-1)  # Error case
 
+    def fetchAllFoodAccount(self):
+        """Fetch everything from FoodAccount."""
+
+        try:
+            with self._conn:
+                self._cursor.execute("SELECT * FROM FoodAccount")
+                allAccount = self._cursor.fetchall()
+                if not allAccount:
+                    return []
+        except sqlite3.IntegrityError:
+            print "Error: couldn't fetch from the FoodAccount", e
+            return []  # Error case
+
+    def fetchAllMiscAccount(self):
+        """Fetch everything from MiscAccount."""
+
+        try:
+            with self._conn:
+                self._cursor.execute("SELECT * FROM MiscAccount")
+                allAccount = self._cursor.fetchall()
+                if not allAccount:
+                    return []
+        except sqlite3.IntegrityError:
+            print "Error: couldn't fetch from the MiscAccount", e
+            return []  # Error case
+
 # XXX
-db = Datastore()
-db.connect()
+#db = Datastore()
+#db.connect()
+#db.insertFoodAccount("January", "2016", 35.5)
+#db.insertFoodAccount("February", "2016", 5)
+#db.insertFoodAccount("March", "2016", 45)
+#db.insertFoodAccount("April", "2016", 95)
 #db.insertFoodAccount("May", "2016", 5.5)
-#db.insertMiscAccount("May", "2016", 44.3)
-print db.fetchFoodAccount("May", "2016")
-print db.fetchMiscAccount("May", "2016")
+##db.insertMiscAccount("May", "2016", 44.3)
+##db.insertMiscAccount("May", "2016", 44.3)
+##print db.fetchFoodAccount("May", "2016")
+#print db.fetchAllFoodAccount()

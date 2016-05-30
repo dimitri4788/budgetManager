@@ -96,13 +96,26 @@ class BudgetWidget(QtGui.QWidget):
 
     def submitButtonClicked(self):
         """TODO """
-        #print self.foodLineedit.text()
-        #print self.miscLineedit.text()
+        foodValueEnteredByUser = self.foodLineedit.text()
+        miscValueEnteredByUser = self.miscLineedit.text()
+        if not foodValueEnteredByUser:
+            foodValueEnteredByUser = 0.0
+        else:
+            foodValueEnteredByUser = float(foodValueEnteredByUser)
+        if not miscValueEnteredByUser:
+            miscValueEnteredByUser = 0.0
+        else:
+            miscValueEnteredByUser = float(miscValueEnteredByUser)
+
+        print "foodValueEnteredByUser: ", foodValueEnteredByUser
+        print "miscValueEnteredByUser: ", miscValueEnteredByUser
+
         now = datetime.datetime.now()
         currentMonth = now.strftime('%B')
         currentYear = now.strftime('%Y')
-        BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, 33)
-        BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, 44)
+
+        BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, foodValueEnteredByUser)
+        BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, miscValueEnteredByUser)
         #print "curr food: ", BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear)
         #print "curr misc: ", BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         #print "deep"
