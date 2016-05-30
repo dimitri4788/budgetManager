@@ -15,7 +15,6 @@ from pdfgenerator import *
 class BudgetWidget(QtGui.QWidget):
     """TODO """
 
-    # TODO I am here
     # First get the handle to Datastore (all the instances of BudgetWidget share dbHandle; class member)
     dbHandle = Datastore()
     dbHandle.connect()
@@ -89,7 +88,13 @@ class BudgetWidget(QtGui.QWidget):
 
 
     def submitButtonClicked(self):
-        """TODO """
+        """This method gets called when the user presses the submit button.
+
+        It updates the database based on the user entered values and also
+        updates the display on the widget.
+        """
+
+        # Get the user entered values
         foodValueEnteredByUser = self.foodLineedit.text()
         miscValueEnteredByUser = self.miscLineedit.text()
         if not foodValueEnteredByUser:
@@ -101,28 +106,38 @@ class BudgetWidget(QtGui.QWidget):
         else:
             miscValueEnteredByUser = float(miscValueEnteredByUser)
 
-        print "foodValueEnteredByUser: ", foodValueEnteredByUser
-        print "miscValueEnteredByUser: ", miscValueEnteredByUser
-
+        # Get the current month and year
         now = datetime.datetime.now()
         currentMonth = now.strftime('%B')
         currentYear = now.strftime('%Y')
 
+        # Set the value labels
         currFoodTotal = BudgetWidget.dbHandle.fetchFoodAccount(currentMonth, currentYear) + foodValueEnteredByUser
         currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear) + miscValueEnteredByUser
         self.foodLabelTotalValue.setText(str(currFoodTotal))
         self.miscLabelTotalValue.setText(str(currMiscTotal))
 
+        # Update the database with the entered values
         BudgetWidget.dbHandle.insertFoodAccount(currentMonth, currentYear, foodValueEnteredByUser)
         BudgetWidget.dbHandle.insertMiscAccount(currentMonth, currentYear, miscValueEnteredByUser)
 
-        #FIXME There is a bug here in this method
-
     def csvButtonClicked(self):
+        """This method gets called when the user presses the CSV generator button.
+
+        It calls the genCSV() method to generator the CSV file.
+        """
+
         genCSV(BudgetWidget.dbHandle)
 
     def pdfButtonClicked(self):
+        """This method gets called when the user presses the PDF generator button.
+
+        It calls the genPDF() method to generator the PDF file.
+        """
+
         print "Hi Deep"
+        #genPDF(BudgetWidget.dbHandle)
+
 
 def main():
     """This function is where the budget app starts."""
