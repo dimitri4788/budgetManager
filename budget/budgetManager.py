@@ -8,7 +8,6 @@ from PyQt4 import QtGui
 
 from database import Datastore
 from csvgenerator import *
-from pdfgenerator import *
 
 
 #TODO: Add comments everywhere
@@ -41,7 +40,6 @@ class BudgetWidget(QtGui.QWidget):
         # Create push-buttons
         self.submitButton = QtGui.QPushButton('Submit', self)
         self.csvButton = QtGui.QPushButton('Generate CSV', self)
-        self.pdfButton = QtGui.QPushButton('Generate PDF', self)
 
         # Set labels positions
         self.header.move(200, 20)
@@ -67,11 +65,6 @@ class BudgetWidget(QtGui.QWidget):
         self.csvButton.move(100, 250)
         self.csvButton.clicked.connect(self.csvButtonClicked)
         self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
-
-        # Set position of pdfButton and the action associated with it
-        self.pdfButton.move(100, 300)
-        self.pdfButton.clicked.connect(self.pdfButtonClicked)
-        self.pdfButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
 
         # Set app window size and title
         self.setGeometry(300, 300, 550, 350)
@@ -128,15 +121,6 @@ class BudgetWidget(QtGui.QWidget):
         """
 
         genCSV(BudgetWidget.dbHandle)
-
-    def pdfButtonClicked(self):
-        """This method gets called when the user presses the PDF generator button.
-
-        It calls the genPDF() method to generator the PDF file.
-        """
-
-        print "Hi Deep"
-        #genPDF(BudgetWidget.dbHandle)
 
 
 def main():
