@@ -1,9 +1,17 @@
 import csv
+import sys
 
-def genCSV(dbHandle=None):
-    """Generates CSV (comma separated) file with the full acount details."""
+def genCSV(dbHandle=None, fileLocation=None):
+    """Generates CSV (comma separated) file with the full account details."""
 
-    with open('accounts.csv', 'w') as csvfile:
+    if not dbHandle:
+        sys.exit("Error: dbHandle passed to genCSV() is None")
+
+    fileName = "accounts.csv"
+    if fileLocation:
+        fileName = fileLocation + "/" + "accounts.csv"
+
+    with open(fileName, 'w') as csvfile:
         fieldNameForFoodAccount = ['Food Account']
         writerFoodField = csv.DictWriter(csvfile, fieldnames=fieldNameForFoodAccount)
 

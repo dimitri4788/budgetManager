@@ -120,7 +120,11 @@ class BudgetWidget(QtGui.QWidget):
         It calls the genCSV() method to generator the CSV file.
         """
 
-        genCSV(BudgetWidget.dbHandle)
+        # First get the location where file needs to be saved
+        fLocation = QtGui.QFileDialog.getExistingDirectory(self, 'File Location', '/home', QtGui.QFileDialog.ShowDirsOnly)
+
+        # Now call the generate csv function to generate the csv file
+        genCSV(BudgetWidget.dbHandle, fLocation)
 
 
 def main():
