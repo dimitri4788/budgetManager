@@ -32,6 +32,9 @@ class BudgetWidget(QtGui.QWidget):
         self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)
         self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)
         #self.miscLabel.setStyleSheet('color: yellow')
+        self.header.setStyleSheet('font-size: 18px')
+        self.foodLabel.setStyleSheet('font-weight: bold')
+        self.miscLabel.setStyleSheet('font-weight: bold')
 
         # Create line-edits
         self.foodLineedit = QtGui.QLineEdit(self)
@@ -42,33 +45,33 @@ class BudgetWidget(QtGui.QWidget):
         self.csvButton = QtGui.QPushButton('Generate CSV', self)
 
         # Set labels positions
-        self.header.move(150, 20)
-        self.currentDate.move(150, 40)
-        self.currentTotal.move(300, 60)
+        self.header.move(130, 20)
+        self.currentDate.move(160, 43)
+        self.currentTotal.move(280, 60)
         self.foodLabel.move(5, 80)
         self.miscLabel.move(5, 100)
-        self.foodLabelTotalValue.move(330, 80)
-        self.miscLabelTotalValue.move(330, 100)
+        self.foodLabelTotalValue.move(300, 80)
+        self.miscLabelTotalValue.move(300, 100)
 
         # Set line-edits positions and size
-        self.foodLineedit.move(90, 80)
+        self.foodLineedit.move(100, 80)
         self.foodLineedit.resize(90, 20)
-        self.miscLineedit.move(90, 100)
+        self.miscLineedit.move(100, 100)
         self.miscLineedit.resize(90, 20)
 
         # Set position of submitButton and the action associated with it
-        self.submitButton.move(100, 150)
+        self.submitButton.move(117, 150)
         self.submitButton.clicked.connect(self.submitButtonClicked)
         self.submitButton.setStyleSheet("background-color: red; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
 
         # Set position of csvButton and the action associated with it
-        self.csvButton.move(100, 200)
+        self.csvButton.move(117, 180)
         self.csvButton.clicked.connect(self.csvButtonClicked)
         self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
 
         # Set app window size and title and center the widget on the screen
-        widgetWidth = 400
-        widgetHeight = 250
+        widgetWidth = 380
+        widgetHeight = 230
         desktopSize = QtGui.QApplication.desktop().availableGeometry(self)
         desktopWidth = desktopSize.getRect()[2]
         desktopHeight = desktopSize.getRect()[3]

@@ -6,6 +6,7 @@ Usage:
 """
 
 from setuptools import setup, find_packages
+import budget
 
 PACKAGES = ['sqlalchemy.dialects.sqlite']
 MODULES = ['sqlite3']
@@ -18,10 +19,17 @@ OPTIONS = {'argv_emulation': True}
 
 OPTIONS = {'argv_emulation': True,
            'packages': PACKAGES,
-           'includes' : ['sqlalchemy.dialects.sqlite']}
+           'includes': ['sqlalchemy.dialects.sqlite']}
 
 setup(
+    name='BudgetManager',
+    version=budget.__version__,
+    description='An application that keeps track of your budget (expenses)',
     app=APP,
+    author='Deep Aggarwal',
+    author_email='deep.uiuc@gmail.com',
+    maintainer='Deep Aggarwal',
+    maintainer_email='deep.uiuc@gmail.com',
     data_files=DATA_FILES,
     include_package_data=True,
     packages=find_packages(),
