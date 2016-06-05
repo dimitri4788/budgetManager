@@ -171,16 +171,3 @@ class Datastore():
         except sqlite3.IntegrityError:
             print "Error: couldn't fetch from the MiscAccount", e
             return []  # Error case
-
-# XXX
-#db = Datastore()
-#db.connect()
-#db.insertFoodAccount("January", "2016", 35.5)
-#db.insertFoodAccount("February", "2016", 5)
-#db.insertFoodAccount("March", "2016", 45)
-#db.insertFoodAccount("April", "2016", 95)
-#db.insertFoodAccount("May", "2016", 5.5)
-##db.insertMiscAccount("May", "2016", 44.3)
-##db.insertMiscAccount("May", "2016", 44.3)
-##print db.fetchFoodAccount("May", "2016")
-#print db.fetchAllFoodAccount()

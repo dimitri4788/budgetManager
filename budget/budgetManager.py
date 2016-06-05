@@ -10,7 +10,7 @@ from database import Datastore
 from csvgenerator import *
 
 
-#TODO: Add comments everywhere
+# TODO: Add comments everywhere
 class BudgetWidget(QtGui.QWidget):
     """TODO """
 
@@ -31,10 +31,6 @@ class BudgetWidget(QtGui.QWidget):
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
         self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)
         self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)
-        #self.miscLabel.setStyleSheet('color: yellow')
-        self.header.setStyleSheet('font-size: 18px')
-        self.foodLabel.setStyleSheet('font-weight: bold')
-        self.miscLabel.setStyleSheet('font-weight: bold')
 
         # Create line-edits
         self.foodLineedit = QtGui.QLineEdit(self)
@@ -46,10 +42,13 @@ class BudgetWidget(QtGui.QWidget):
 
         # Set labels positions
         self.header.move(130, 20)
+        self.header.setStyleSheet('font-size: 18px')
         self.currentDate.move(160, 43)
         self.currentTotal.move(280, 60)
         self.foodLabel.move(5, 80)
+        self.foodLabel.setStyleSheet('font-weight: bold')
         self.miscLabel.move(5, 100)
+        self.miscLabel.setStyleSheet('font-weight: bold')
         self.foodLabelTotalValue.move(300, 80)
         self.miscLabelTotalValue.move(300, 100)
 
@@ -62,12 +61,12 @@ class BudgetWidget(QtGui.QWidget):
         # Set position of submitButton and the action associated with it
         self.submitButton.move(117, 150)
         self.submitButton.clicked.connect(self.submitButtonClicked)
-        self.submitButton.setStyleSheet("background-color: red; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+        self.submitButton.setStyleSheet("background-color: red; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px")
 
         # Set position of csvButton and the action associated with it
         self.csvButton.move(117, 180)
         self.csvButton.clicked.connect(self.csvButtonClicked)
-        self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px");
+        self.csvButton.setStyleSheet("background-color: green; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px")
 
         # Set app window size and title and center the widget on the screen
         widgetWidth = 380
@@ -88,7 +87,6 @@ class BudgetWidget(QtGui.QWidget):
         currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         self.foodLabelTotalValue.setText(str(currFoodTotal))
         self.miscLabelTotalValue.setText(str(currMiscTotal))
-
 
     def submitButtonClicked(self):
         """This method gets called when the user presses the submit button.

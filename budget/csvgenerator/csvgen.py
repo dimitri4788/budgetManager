@@ -1,6 +1,7 @@
 import csv
 import sys
 
+
 def genCSV(dbHandle=None, fileLocation=None):
     """Generates CSV (comma separated) file with the full account details."""
 
