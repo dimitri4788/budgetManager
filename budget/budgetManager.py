@@ -1,4 +1,4 @@
-#!/usr/bin/python #FIXME change this
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import datetime
@@ -6,15 +6,14 @@ import sys
 
 from PyQt4 import QtGui
 
-from database import Datastore
 from csvgenerator import *
+from database import *
 
 
-# TODO: Add comments everywhere
 class BudgetWidget(QtGui.QWidget):
-    """TODO """
+    """This is the main Budget widget class which encapsulates the whole app."""
 
-    # First get the handle to Datastore (all the instances of BudgetWidget share dbHandle; class member)
+    # First get the handle to Datastore (all the instances of BudgetWidget share dbHandle; it is a class member)
     dbHandle = Datastore()
     dbHandle.connect()
 
@@ -29,8 +28,8 @@ class BudgetWidget(QtGui.QWidget):
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
-        self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)
-        self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)
+        self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)  # Hack to make label long
+        self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)  # Hack to make label long
 
         # Create line-edits
         self.foodLineedit = QtGui.QLineEdit(self)
