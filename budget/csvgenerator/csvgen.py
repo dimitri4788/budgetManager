@@ -3,7 +3,12 @@ import sys
 
 
 def genCSV(dbHandle=None, fileLocation=None):
-    """Generates CSV (comma separated) file with the full account details."""
+    """Generates CSV (comma separated) file with the full account details.
+
+     Args:
+        dbHandle (Datastore): A handle to Datastore
+        fileLocation (str): The file location where the csv file needs to be saved
+    """
 
     if not dbHandle:
         sys.exit("Error: dbHandle passed to genCSV() is None")
