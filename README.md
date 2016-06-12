@@ -28,6 +28,10 @@ Usage
 -----
 Just start the application as you would start any other application on your Mac. Go to the Applications directory and click on the icon or you can make the shortcut on your Dock.
 
+Screenshot
+----------
+![](images/appImage.png)
+
 Author
 ------
 Deep Aggarwal  
