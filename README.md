@@ -10,17 +10,17 @@ Installation
 $ python setup.py py2app -A
 
 # To run your application directly from the Terminal
-$ ./dist/MyApplication.app/Contents/MacOS/MyApplication
+$ ./dist/BudgetManager.app/Contents/MacOS/BudgetManager
 
 # Building for deployment
 $ python setup.py py2app
 
-# NOTE: Useful link: https://pythonhosted.org/py2app/tutorial.html#building-for-deployment
+# NOTE: Useful link: https://pythonhosted.org/py2app/tutorial.html
 ```
 
 Usage
 -----
-Just start the application as you would start any other application on your Mac. Go to Applications and click on the icon or you can make the shortcut on your Dock.
+Just start the application as you would start any other application on your Mac. Go to the Applications directory and click on the icon or you can make the shortcut on your Dock.
 
 Author
 ------
