@@ -15,10 +15,9 @@ includes = ["sqlalchemy.databases.sqlite"]
 
 APP = ['budget/budgetManager.py']
 DATA_FILES = []
-OPTIONS = {'argv_emulation': True}
-
 OPTIONS = {'argv_emulation': True,
            'packages': PACKAGES,
+           'iconfile': 'appIcon.icns',
            'includes': ['sqlalchemy.dialects.sqlite']}
 
 setup(
