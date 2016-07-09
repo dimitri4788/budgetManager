@@ -10,6 +10,9 @@ from csvgenerator import *
 from database import *
 
 
+# Global data
+hashMapOfMonths = { 'January' : 0, 'February' : 1, 'March' : 2, 'April' : 3, 'May' : 4, 'June' : 5, 'July' : 6, 'August' : 7, 'September' : 8, 'October' : 9, 'November' : 10, 'December' : 11}
+
 class BudgetWidget(QtGui.QWidget):
     """This is the main Budget widget class which encapsulates the whole app."""
 
@@ -24,12 +27,36 @@ class BudgetWidget(QtGui.QWidget):
         # Create labels
         self.header = QtGui.QLabel("Budget Manager", self)
         now = datetime.datetime.now()
-        self.currentDate = QtGui.QLabel(now.strftime('%B %Y'), self)
+        hashMapCurrentMonthIndex = hashMapOfMonths[now.strftime('%B')]
         self.currentTotal = QtGui.QLabel("Current Total", self)
         self.foodLabel = QtGui.QLabel("Food", self)
         self.miscLabel = QtGui.QLabel("Miscellaneous", self)
         self.foodLabelTotalValue = QtGui.QLabel("000000000000000000", self)  # Hack to make label long
         self.miscLabelTotalValue = QtGui.QLabel("000000000000000000", self)  # Hack to make label long
+
+        # Set drop-down list for months
+        self.comboBox = QtGui.QComboBox(self)
+        self.comboBox.addItem("January")
+        self.comboBox.addItem("February")
+        self.comboBox.addItem("March")
+        self.comboBox.addItem("April")
+        self.comboBox.addItem("May")
+        self.comboBox.addItem("June")
+        self.comboBox.addItem("July")
+        self.comboBox.addItem("August")
+        self.comboBox.addItem("September")
+        self.comboBox.addItem("October")
+        self.comboBox.addItem("November")
+        self.comboBox.addItem("December")
+        self.comboBox.activated[str].connect(self.styleChoiceMethod)
+        self.comboBox.setCurrentIndex(hashMapCurrentMonthIndex)  # Set current display month
+
+        # XXX
+        self.styleChoice = QtGui.QLabel("Windows Vista", self)
+        self.styleChoice.move(50,150)
+        # XXX
+
+
 
         # Create line-edits
         self.foodLineedit = QtGui.QLineEdit(self)
@@ -42,7 +69,7 @@ class BudgetWidget(QtGui.QWidget):
         # Set labels positions
         self.header.move(130, 20)
         self.header.setStyleSheet('font-size: 18px')
-        self.currentDate.move(160, 43)
+        self.comboBox.move(160, 43)
         self.currentTotal.move(280, 60)
         self.foodLabel.move(5, 80)
         self.foodLabel.setStyleSheet('font-weight: bold')
@@ -86,6 +113,14 @@ class BudgetWidget(QtGui.QWidget):
         currMiscTotal = BudgetWidget.dbHandle.fetchMiscAccount(currentMonth, currentYear)
         self.foodLabelTotalValue.setText(str(currFoodTotal))
         self.miscLabelTotalValue.setText(str(currMiscTotal))
+
+    # XXX
+    def styleChoiceMethod(self, text):
+        self.styleChoice.setText(text)
+        print self.comboBox.currentText()
+        print self.comboBox.currentText() + "HHHHHH"
+        print type(self.comboBox.currentText())
+    # XXX
 
     def submitButtonClicked(self):
         """This method gets called when the user presses the submit button.
