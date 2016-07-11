@@ -30,7 +30,8 @@ Just start the application as you would start any other application on your Mac.
 
 Screenshot
 ----------
-![](images/appImage.png)
+![](images/one.png)
+![](images/two.png)
 
 Author
 ------
