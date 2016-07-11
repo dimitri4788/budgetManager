@@ -10,7 +10,6 @@ from PyQt4 import QtGui
 from csvgenerator import *
 from database import *
 
-#TODO fix the ordeing of saved months in csv file
 
 class BudgetWidget(QtGui.QWidget):
     """This is the main Budget widget class which encapsulates the whole app."""
