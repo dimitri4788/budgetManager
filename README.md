@@ -6,6 +6,9 @@ An application that keeps track of your budget (expenses).
 Installation
 ------------
 ```sh
+# Install py2app
+$ pip install -U py2app
+
 # Development with alias mode (-A flag)
 # Alias mode (the -A or --alias option) instructs py2app to build an application bundle that uses your source and data files in-place. It does not create standalone applications, and the applications built in alias mode are not portable to other machines
 $ python setup.py py2app -A
